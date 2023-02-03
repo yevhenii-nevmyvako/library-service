@@ -26,5 +26,9 @@ class Book(models.Model):
         verbose_name = "Books"
         verbose_name_plural = "Books"
 
+    @property
+    def daily_free_with_usd(self):
+        return f"{self.daily_free} $USD"
+
     def __str__(self) -> str:
         return self.title
