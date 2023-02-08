@@ -9,8 +9,8 @@ class BorrowingsAdmin(admin.ModelAdmin):
         "borrow_date",
         "expected_return_date",
         "actual_return_date",
-        "book_id",
-        "user_id",
+        "book",
+        "user",
     ]
     list_filter = (
         "borrow_date",
