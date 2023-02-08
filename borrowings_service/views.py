@@ -3,7 +3,6 @@ from django.db import transaction
 from drf_spectacular.types import OpenApiTypes
 from rest_framework import viewsets, mixins, status
 from rest_framework.decorators import action
-from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from drf_spectacular.utils import OpenApiParameter, extend_schema
@@ -13,8 +12,8 @@ from borrowings_service.serializers import (
     BorrowingsDetailSerializer,
     BorrowingsListSerializer,
     BorrowingReturnBookSerializer,
-    # BorrowingsListSerializer,
 )
+from pagination import LibraryPagination
 
 
 class BorrowingsViewSet(
@@ -26,6 +25,7 @@ class BorrowingsViewSet(
     queryset = Borrowings.objects.all().select_related("book")
     serializer_class = BorrowingsSerializer
     permission_classes = (IsAuthenticated,)
+    pagination_class = LibraryPagination
 
     @staticmethod
     def get_parameter(parameter: str) -> bool:
