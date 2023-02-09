@@ -24,7 +24,7 @@ def sample_book(**params):
         "author": "Joahn Rowling",
         "cover": "Hard",
         "inventory": 5,
-        "daily_free": 13.25,
+        "daily_fee": 13.25,
     }
     defaults.update(params)
 
