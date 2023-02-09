@@ -10,6 +10,6 @@ class BookAdmin(admin.ModelAdmin):
         "author",
         "cover",
         "inventory",
-        "daily_free_with_usd",
+        "daily_fee_with_usd",
     ]
     list_filter = ("title", "author")

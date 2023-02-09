@@ -3,20 +3,15 @@ from datetime import date
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.utils import timezone
 
 from book_service.models import Book
 from user.models import User
 
 
-def default_time_to_expected_return_date():
-    return timezone.now() + timezone.timedelta(days=1)
-
-
 class Borrowings(models.Model):
     borrow_date = models.DateTimeField(auto_now_add=False, default=date.today)
     expected_return_date = models.DateTimeField(
-        auto_now_add=False, default=default_time_to_expected_return_date()
+        auto_now_add=False,
     )
     actual_return_date = models.DateTimeField(
         auto_now_add=False, blank=True, null=True
@@ -35,10 +30,15 @@ class Borrowings(models.Model):
         actual_return_date: date,
         error_to_raise,
     ):
-        if actual_return_date < borrow_date:
-            raise error_to_raise("Date must be greater than borrow date!")
-        if expected_return_date < borrow_date:
-            raise error_to_raise("Date must be greater than borrow date!")
+        if borrow_date > expected_return_date:
+            raise error_to_raise(
+                f"{borrow_date}Borrow date should not be later than {expected_return_date}"
+            )
+
+        if actual_return_date and borrow_date > actual_return_date:
+            raise error_to_raise(
+                f"{borrow_date} should not be later than {actual_return_date}"
+            )
 
     def clean(self):
         self.validate_date(

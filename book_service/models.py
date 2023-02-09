@@ -14,7 +14,7 @@ class Book(models.Model):
         validators=[MinValueValidator(0)],
         default=0,
     )
-    daily_free = models.DecimalField(
+    daily_fee = models.DecimalField(
         max_digits=5,
         decimal_places=2,
         validators=[MinValueValidator(0), MaxValueValidator(99999)],
@@ -27,8 +27,8 @@ class Book(models.Model):
         verbose_name_plural = "Books"
 
     @property
-    def daily_free_with_usd(self):
-        return f"{self.daily_free} $USD"
+    def daily_fee_with_usd(self):
+        return f"{self.daily_fee} $USD"
 
     def __str__(self) -> str:
         return self.title
