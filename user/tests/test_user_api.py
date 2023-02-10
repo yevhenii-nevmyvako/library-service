@@ -5,8 +5,6 @@ from rest_framework import status
 
 from rest_framework.test import APIClient
 
-from user.serializers import UserSerializer
-
 
 class NotAuthenticatedAPITests(TestCase):
     """test not authenticated user"""

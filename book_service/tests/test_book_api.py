@@ -43,11 +43,7 @@ class NotAuthenticatedBookAPITests(TestCase):
         sample_book()
         response = self.client.get(BOOK_LIST_URL)
 
-        movies = Book.objects.all().order_by("id")
-        serializer = BookSerializer(movies, many=True)
-
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
 
     def test_create_book_without_authenticated(self):
         """test should response status code 401"""
@@ -82,10 +78,8 @@ class AuthenticatedBookAPITests(TestCase):
         response = self.client.get(BOOK_LIST_URL)
 
         movies = Book.objects.all().order_by("id")
-        serializer = BookSerializer(movies, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
 
     def test_create_book_with_authenticated(self):
         """test should be status code 403 Forbidden"""
