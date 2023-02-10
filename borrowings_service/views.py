@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import transaction
+from django.db.models import QuerySet
 from drf_spectacular.types import OpenApiTypes
 from rest_framework import viewsets, mixins, status
 from rest_framework.decorators import action
@@ -12,6 +13,7 @@ from borrowings_service.serializers import (
     BorrowingsDetailSerializer,
     BorrowingsListSerializer,
     BorrowingReturnBookSerializer,
+    BorrowingsCreateSerializer,
 )
 from pagination import LibraryPagination
 
@@ -24,7 +26,7 @@ class BorrowingsViewSet(
 ):
     queryset = Borrowings.objects.all().select_related("book")
     serializer_class = BorrowingsSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [IsAuthenticated]
     pagination_class = LibraryPagination
 
     @staticmethod
@@ -34,7 +36,7 @@ class BorrowingsViewSet(
         elif parameter == "returned":
             return False
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet:
         queryset = self.queryset
         is_active = self.get_parameter(
             self.request.query_params.get("is_active")
@@ -60,10 +62,16 @@ class BorrowingsViewSet(
         if self.action == "retrieve":
             return BorrowingsDetailSerializer
 
+        if self.action == "create":
+            return BorrowingsCreateSerializer
+
         if self.action == "return_book":
             return BorrowingReturnBookSerializer
 
         return BorrowingsSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
     @action(
         methods=["POST"],
@@ -106,7 +114,7 @@ class BorrowingsViewSet(
             OpenApiParameter(
                 "user_id",
                 type=OpenApiTypes.INT,
-                description="Filter by user id if auth as admin (ex. ?user_id=(1, 2, 3))",
+                description="Filter by user id if user is_stuff (ex. ?user_id=(1, 2, 3))",
             ),
         ]
     )

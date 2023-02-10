@@ -27,7 +27,7 @@ class Book(models.Model):
         verbose_name_plural = "Books"
 
     @property
-    def daily_fee_with_usd(self):
+    def daily_fee_with_usd(self) -> str:
         return f"{self.daily_fee} $USD"
 
     def __str__(self) -> str:
