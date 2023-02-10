@@ -103,22 +103,22 @@ class AuthenticatedBorrowingsApiTests(TestCase):
             "user": self.user.id,
         }
         response = self.client.post(BORROWINGS_URL, payload)
-        book_after_borrowing = Book.objects.get(id=1)
+        book_after_borrowing = Book.objects.get(id=book.id)
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(book_after_borrowing.inventory, 2)
+        self.assertEqual(book_after_borrowing.inventory, 1)
 
     def test_borrowings_book_inventory_after_returning(self):
-        book = sample_book(inventory=5)
+        book = sample_book(inventory=7)
         sample_borrowing(self.user, book, actual_return_date=None)
         payload = {
             "actual_return_date": "2023-04-06",
         }
         response = self.client.post(BORROWINGS_RETURN_URL, payload)
-        book_after_returning = Book.objects.get(id=1)
+        book_after_returning = Book.objects.get(id=book.id)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(book_after_returning.inventory, 6)
+        self.assertEqual(book_after_returning.inventory, 8)
 
 
 class AdminBorrowingsApiTests(TestCase):
