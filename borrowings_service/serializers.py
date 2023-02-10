@@ -32,7 +32,7 @@ class BorrowingsCreateSerializer(serializers.ModelSerializer):
             "user",
         )
 
-    def create(self, validated_data):
+    def create(self, validated_data) -> object:
         with transaction.atomic():
             book = validated_data.get("book")
             borrowing = Borrowings.objects.create(**validated_data)
@@ -41,7 +41,7 @@ class BorrowingsCreateSerializer(serializers.ModelSerializer):
 
             return borrowing
 
-    def validate(self, attrs):
+    def validate(self, attrs) -> dict:
         data = super().validate(attrs=attrs)
         Borrowings.validate_date(
             attrs.get("borrow_date"),
@@ -52,7 +52,7 @@ class BorrowingsCreateSerializer(serializers.ModelSerializer):
 
         return data
 
-    def validate_book(self, value):
+    def validate_book(self, value) -> int:
         if value.inventory == 0:
             raise serializers.ValidationError("Books with this title are over")
         return value
