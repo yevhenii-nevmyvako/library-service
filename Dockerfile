@@ -11,6 +11,7 @@ COPY requirements.txt /code/
 
 RUN apt-get update && apt-get -y install libpq-dev gcc
 
+RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 COPY . /code/
