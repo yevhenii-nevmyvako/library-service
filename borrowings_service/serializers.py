@@ -2,10 +2,13 @@ from django.db import transaction
 from rest_framework import serializers
 
 from book_service.serializers import BookSerializer
+from borrowings_service.borrowing_notifications_bot import send_message
 from borrowings_service.models import Borrowings
 
 
 class BorrowingsSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+
     class Meta:
         model = Borrowings
         fields = (
@@ -19,7 +22,7 @@ class BorrowingsSerializer(serializers.ModelSerializer):
 
 
 class BorrowingsCreateSerializer(serializers.ModelSerializer):
-    user = serializers.StringRelatedField(read_only=True)
+    user = serializers.SlugRelatedField(read_only=True, many=False, slug_field="email")
 
     class Meta:
         model = Borrowings
@@ -38,7 +41,14 @@ class BorrowingsCreateSerializer(serializers.ModelSerializer):
             borrowing = Borrowings.objects.create(**validated_data)
             book.inventory -= 1
             book.save()
-
+            send_borrowing = super().create(validated_data)
+            message = f"Create new borrowing " \
+                      f"at: {send_borrowing.borrow_date}\n" \
+                      f"Book Title: {send_borrowing.book}\n" \
+                      f"User email: {send_borrowing.user}\n" \
+                      f"Expected return date: " \
+                      f"{send_borrowing.expected_return_date}\n"
+            send_message(message)
             return borrowing
 
     def validate(self, attrs) -> dict:

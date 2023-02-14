@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 import os
+
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -174,4 +176,12 @@ SIMPLE_JWT = {
 
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
-TELEGARM_BOT_CHAT_ID = os.getenv("CHAT_ID")
+TELEGRAM_BOT_CHAT_ID = os.getenv("CHAT_ID")
+
+# Celery Configuration Options
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"
+CELERY_TIMEZONE = "Europe/Kyiv"
+CELERY_TASK_TRACK_STARTED = True
+# Limit = 1800 sec
+CELERY_TASK_TIME_LIMIT = 30 * 60
