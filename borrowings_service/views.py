@@ -7,6 +7,8 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from drf_spectacular.utils import OpenApiParameter, extend_schema
+
+from borrowings_service.borrowing_notifications_bot import send_message
 from borrowings_service.models import Borrowings
 from borrowings_service.serializers import (
     BorrowingsSerializer,
@@ -70,7 +72,7 @@ class BorrowingsViewSet(
 
         return BorrowingsSerializer
 
-    def perform_create(self, serializer):
+    def perform_create(self, serializer) -> None:
         serializer.save(user=self.request.user)
 
     @action(
@@ -79,13 +81,15 @@ class BorrowingsViewSet(
         url_path="return_book",
         permission_classes=[IsAuthenticated],
     )
-    def return_book(self, request, pk=None):
+    def return_book(self, request, pk=None) -> Response:
         """Endpoint for returning borrowing book"""
         borrowing = self.get_object()
         book = borrowing.book
         serializer = self.get_serializer(borrowing, data=request.data)
 
         if borrowing.actual_return_date is not None:
+            message = f"You already return {book.title}"
+            send_message(message)
             raise ValidationError("Book have already returned")
 
         if serializer.is_valid():
