@@ -1,25 +1,24 @@
-from datetime import date
+from datetime import date, timedelta
 
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.utils import timezone
 
 from book_service.models import Book
 from user.models import User
 
 
 def default_time_to_expected_return_date():
-    return timezone.now() + timezone.timedelta(days=1)
+    return date.today() + timedelta(days=1)
 
 
 class Borrowings(models.Model):
-    borrow_date = models.DateTimeField(auto_now_add=False)
-    expected_return_date = models.DateTimeField(
+    borrow_date = models.DateField(auto_now_add=False)
+    expected_return_date = models.DateField(
         auto_now_add=False,
         default=default_time_to_expected_return_date(),
     )
-    actual_return_date = models.DateTimeField(
+    actual_return_date = models.DateField(
         auto_now_add=False, blank=True, null=True
     )
     book = models.ForeignKey(
