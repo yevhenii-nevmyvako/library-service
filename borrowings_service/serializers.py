@@ -46,7 +46,7 @@ class BorrowingsCreateSerializer(serializers.ModelSerializer):
             message = f"Create new borrowing " \
                       f"at: {borrowing.borrow_date}\n" \
                       f"Book Title: {borrowing.book.title}\n" \
-                      f"User email: {borrowing.user}\n" \
+                      f"User: {borrowing.user}\n" \
                       f"Expected return date: " \
                       f"{borrowing.expected_return_date}\n"
             send_message(message)

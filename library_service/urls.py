@@ -21,14 +21,14 @@ from drf_spectacular.views import (
     SpectacularRedocView,
 )
 from rest_framework import routers
-
 from book_service.urls import router as books
 from borrowings_service.urls import router as borrowings
-# from payment.urls import router as payments
+from payments.urls import router as payments
+
 router = routers.DefaultRouter()
 router.registry.extend(books.registry)
 router.registry.extend(borrowings.registry)
-# router.registry.extend(payments.registry)
+router.registry.extend(payments.registry)
 
 urlpatterns = [
     path("admin/", admin.site.urls),

@@ -24,3 +24,15 @@ services:
       - .env
     depends_on:
       - db
+
+#  flower:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    ports:
+#      - "5000:5000"
+#    command: "celery -A library_service flower --address=0.0.0.0"
+#    depends_on:
+#      - -celery
+#    env_file:
+#      - .env
