@@ -37,7 +37,8 @@ class Borrowings(models.Model):
     ) -> None:
         if borrow_date > expected_return_date:
             raise error_to_raise(
-                f"{borrow_date}Borrow date should not be later than {expected_return_date}"
+                f"{borrow_date}Borrow date should not be "
+                f"later than {expected_return_date}"
             )
 
         if actual_return_date and borrow_date > actual_return_date:

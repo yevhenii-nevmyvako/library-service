@@ -1,5 +1,4 @@
 from datetime import date, timedelta
-import datetime
 from celery import shared_task
 
 from book_service.models import Book
@@ -25,4 +24,3 @@ def overdue_notifications() -> send_message:
                       f"Have {days_late} to return the {book.title} \n" \
                       f"before it overdue"
             send_message(message)
-

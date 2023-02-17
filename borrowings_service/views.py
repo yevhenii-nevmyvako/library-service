@@ -113,12 +113,14 @@ class BorrowingsViewSet(
             OpenApiParameter(
                 name="is_active",
                 type=OpenApiTypes.STR,
-                description="Filter by active borrowings (ex. ?is_active=True)",
+                description="Filter by active "
+                            "borrowings (ex. ?is_active=True)",
             ),
             OpenApiParameter(
                 "user_id",
                 type=OpenApiTypes.INT,
-                description="Filter by user id if user is_stuff (ex. ?user_id=(1, 2, 3))",
+                description="Filter by user id if user "
+                            "is_stuff (ex. ?user_id=(1, 2, 3))",
             ),
         ]
     )
