@@ -52,7 +52,7 @@ docker-compose up
 - Path to create user api/users
 - Path to login user api/users/token
 - Authorization Berer
-- docker exec -it container_id python manage.py createsuperuser
+- docker exec -it library_service_web_1 python manage.py createsuperuser
 ```
 
 ### Stop server:
