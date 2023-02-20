@@ -1,3 +1,4 @@
+from django.db.models import QuerySet
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
@@ -15,7 +16,7 @@ class PaymentViewSet(viewsets.ModelViewSet):
     pagination_class = LibraryPagination
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet:
         current_user = self.request.user
         if current_user.is_staff is False:
             return Payment.objects.filter(borrowing__user=current_user)

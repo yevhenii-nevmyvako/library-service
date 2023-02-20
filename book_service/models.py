@@ -31,4 +31,8 @@ class Book(models.Model):
         return f"{self.daily_fee} $USD"
 
     def __str__(self) -> str:
-        return self.title
+        return f"Title: {self.title}," \
+               f" Author: {self.author}," \
+               f" Cover: {self.cover}," \
+               f" Inventory: {self.inventory}," \
+               f" Daily fee: {self.daily_fee}"

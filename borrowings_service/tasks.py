@@ -8,7 +8,7 @@ from borrowings_service.borrowing_notifications_bot import send_message
 
 
 @shared_task
-def overdue_notifications() -> send_message:
+def overdue_notifications() -> None:
     last_day = date.today() + timedelta(days=1)
     overdue = Borrowings.objects.filter(
         expected_return_date__lte=last_day

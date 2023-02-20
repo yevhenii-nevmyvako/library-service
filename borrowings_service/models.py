@@ -8,7 +8,7 @@ from book_service.models import Book
 from user.models import User
 
 
-def default_time_to_expected_return_date():
+def default_time_to_expected_return_date() -> date:
     return date.today() + timedelta(days=1)
 
 
@@ -58,12 +58,6 @@ class Borrowings(models.Model):
         self.full_clean()
 
         return super().save(*args, **kwargs)
-
-    def book_info(self) -> Book:
-        return self.book
-
-    def user_full_name(self) -> get_user_model():
-        return self.user
 
     class Meta:
         ordering = ["expected_return_date"]

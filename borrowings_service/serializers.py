@@ -1,6 +1,5 @@
 from django.db import transaction
 from rest_framework import serializers
-from book_service.serializers import BookSerializer
 from borrowings_service.borrowing_notifications_bot import send_message
 from borrowings_service.models import Borrowings
 from payments.serializers import PaymentSerializer
@@ -22,8 +21,8 @@ class BorrowingsSerializer(serializers.ModelSerializer):
 
 
 class BorrowingsCreateSerializer(serializers.ModelSerializer):
-    user_full_name = serializers.StringRelatedField(read_only=True)
-    book_info = BookSerializer(many=False, read_only=True)
+    book_info = serializers.CharField(source="book", read_only=True)
+    user_full_name = serializers.CharField(source="user", read_only=True)
 
     class Meta:
         model = Borrowings
@@ -37,7 +36,7 @@ class BorrowingsCreateSerializer(serializers.ModelSerializer):
             "book_info",
         )
 
-    def create(self, validated_data) -> object:
+    def create(self, validated_data) -> Borrowings:
         with transaction.atomic():
             book = validated_data.get("book")
             borrowing = Borrowings.objects.create(**validated_data)
@@ -85,8 +84,8 @@ class BorrowingsListSerializer(serializers.ModelSerializer):
 
 
 class BorrowingsDetailSerializer(serializers.ModelSerializer):
-    book_info = BookSerializer(many=False, read_only=True)
-    user_full_name = serializers.StringRelatedField(read_only=True)
+    book_info = serializers.CharField(source="book", read_only=True)
+    user_full_name = serializers.CharField(source="user", read_only=True)
     payments = PaymentSerializer(many=True, read_only=True)
 
     class Meta:

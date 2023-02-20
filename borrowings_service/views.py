@@ -1,3 +1,5 @@
+from typing import Optional
+
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.db.models import QuerySet
@@ -8,6 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from drf_spectacular.utils import OpenApiParameter, extend_schema
 
+from borrowings_service import serializers
 from borrowings_service.borrowing_notifications_bot import send_message
 from borrowings_service.models import Borrowings
 from borrowings_service.serializers import (
@@ -32,7 +35,7 @@ class BorrowingsViewSet(
     pagination_class = LibraryPagination
 
     @staticmethod
-    def get_parameter(parameter: str) -> bool:
+    def get_parameter(parameter: str) -> Optional[bool]:
         if parameter == "active":
             return True
         elif parameter == "returned":
@@ -57,7 +60,7 @@ class BorrowingsViewSet(
 
         return queryset
 
-    def get_serializer_class(self):
+    def get_serializer_class(self) -> type[serializers]:
         if self.action == "list":
             return BorrowingsListSerializer
 
