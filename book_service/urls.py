@@ -1,5 +1,3 @@
-from django.urls import path, include
-
 from book_service.views import BookViewSet
 from rest_framework import routers
 
