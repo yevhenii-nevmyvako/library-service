@@ -11,7 +11,7 @@ class BookViewSet(viewsets.ModelViewSet):
     pagination_class = LibraryPagination
     permission_classes = (permissions.IsAdminUser,)
 
-    def get_permissions(self):
+    def get_permissions(self) -> permission_classes:
         if self.request.method in ["PUT", "DELETE", "PATCH", "POST"]:
             return [permissions.IsAdminUser()]
         return [permissions.AllowAny()]

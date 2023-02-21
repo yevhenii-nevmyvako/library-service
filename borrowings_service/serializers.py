@@ -1,5 +1,7 @@
 from django.db import transaction
 from rest_framework import serializers
+
+from book_service.models import Book
 from borrowings_service.borrowing_notifications_bot import send_message
 from borrowings_service.models import Borrowings
 from payments.serializers import PaymentSerializer
@@ -61,12 +63,12 @@ class BorrowingsCreateSerializer(serializers.ModelSerializer):
 
         return data
 
-    def validate_book(self, value) -> int:
-        if value.inventory == 0:
+    def validate_book(self, book_value: Book) -> Book:
+        if book_value.inventory == 0:
             message = f"Sorry no books left with this title"
             send_message(message)
             raise serializers.ValidationError("Books with this title are over")
-        return value
+        return book_value
 
 
 class BorrowingsListSerializer(serializers.ModelSerializer):

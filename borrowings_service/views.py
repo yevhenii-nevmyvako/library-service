@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from drf_spectacular.utils import OpenApiParameter, extend_schema
 
-from borrowings_service import serializers
+from rest_framework import serializers
 from borrowings_service.borrowing_notifications_bot import send_message
 from borrowings_service.models import Borrowings
 from borrowings_service.serializers import (
@@ -59,7 +59,7 @@ class BorrowingsViewSet(
 
         return queryset
 
-    def get_serializer_class(self) -> type[serializers]:
+    def get_serializer_class(self) -> type[serializers.Serializer]:
         if self.action == "list":
             return BorrowingsListSerializer
 
