@@ -1,5 +1,4 @@
 from typing import Optional
-
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.db.models import QuerySet
@@ -36,9 +35,9 @@ class BorrowingsViewSet(
 
     @staticmethod
     def get_parameter(parameter: str) -> Optional[bool]:
-        if parameter == "active":
+        if parameter == "True":
             return True
-        elif parameter == "returned":
+        elif parameter == "False":
             return False
 
     def get_queryset(self) -> QuerySet:
@@ -117,13 +116,15 @@ class BorrowingsViewSet(
                 name="is_active",
                 type=OpenApiTypes.STR,
                 description="Filter by active "
-                            "borrowings (ex. ?is_active=True)",
+                            "borrowings (ex. ?is_active=True/False)",
+                required=False,
             ),
             OpenApiParameter(
                 "user_id",
                 type=OpenApiTypes.INT,
                 description="Filter by user id if user "
                             "is_stuff (ex. ?user_id=(1, 2, 3))",
+                required=False,
             ),
         ]
     )

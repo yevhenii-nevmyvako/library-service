@@ -27,5 +27,5 @@ class Payment(models.Model):
         verbose_name_plural = "Payments"
 
     def __str__(self):
-        return f"Session id: {self.session_id} " \
-               f"Money to pay {self.money_to_pay}"
+        return (f"Session id: {self.session_id}"
+                f" Money to pay {self.money_to_pay}")

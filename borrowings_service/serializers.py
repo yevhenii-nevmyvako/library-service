@@ -42,12 +42,11 @@ class BorrowingsCreateSerializer(serializers.ModelSerializer):
             borrowing = Borrowings.objects.create(**validated_data)
             book.inventory -= 1
             book.save()
-            message = f"Create new borrowing " \
-                      f"at: {borrowing.borrow_date}\n" \
-                      f"Book Title: {borrowing.book.title}\n" \
-                      f"User: {borrowing.user}\n" \
-                      f"Expected return date: " \
-                      f"{borrowing.expected_return_date}\n"
+            message = (f"Create new borrowing at: {borrowing.borrow_date}\n"
+                       f"Book Title: {borrowing.book.title}\n"
+                       f"User: {borrowing.user}\n"
+                       f"Expected return date: "
+                       f"{borrowing.expected_return_date}\n")
             send_message(message)
             return borrowing
 
