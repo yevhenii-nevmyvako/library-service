@@ -9,10 +9,10 @@ Project API service for managing and borrowing books in library.
 - Creating user at /api/users/
 - Login user at /api/users/token/
 - Creating books at /api/books/
-- Detail books info at /api/books/<pk>/
+- Detail books info at /api/books/{pk}/
 - Creating borrowings at /api/borrowings/
-- Borrowings detail at api/borrowings/<pk>
-- Return borrowing book at api/borrowings/<pk>/return_book
+- Borrowings detail at api/borrowings/{pk}/
+- Return borrowing book at api/borrowings/{pk}/return_book
 - Notification by Telegram Bot
 - Celery task to overdue borrowing by Redis broker
 - Using Flower to track the celery tasks by /0.0.0.0:5555/
@@ -53,6 +53,14 @@ docker-compose up
 - Path to login user api/users/token
 - Authorization Berer
 - docker exec -it library_service_web_1 python manage.py createsuperuser
+```
+
+### Test authentication & telegram chat to login
+```bash
+* superuser email: admin@admin.com
+* password: qaz1qaz1
+* TELEGRAM_BOT_TOKEN=6241916121:AAEjgUq0tnszcEXtpHUlHyr2WUYTlExUCxM
+* TELEGRAM_BOT_CHAT_ID=@librarian_notification_bot
 ```
 
 ### Stop server:
